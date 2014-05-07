@@ -233,7 +233,7 @@
   set lazyredraw
   set laststatus=2
   set noshowmode
-  set foldenable                                      "enable folds by default
+  set nofoldenable                                    "disable folds by default
   set foldmethod=syntax                               "fold via syntax of files
   set foldlevelstart=99                               "open all folds by default
   let g:xml_syntax_folding=1                          "enable xml folding
@@ -264,16 +264,16 @@
     set guioptions-=T                                 "toolbar icons
 
     if s:is_macvim
-      set gfn=Ubuntu_Mono:h14
+      set gfn=Sauce\ Code\ Powerline\ Light:h14
       set transparency=2
     endif
 
     if s:is_windows
-      set gfn=Ubuntu_Mono:h10
+      set gfn=Sauce\ Code\ Powerline\ Light:h10
     endif
 
     if has('gui_gtk')
-      set gfn=Ubuntu\ Mono\ 11
+      set gfn=Sauce\ Code\ Powerline\ Light:h11
     endif
   else
     if $COLORTERM == 'gnome-terminal'
@@ -296,6 +296,7 @@
   if count(s:settings.plugin_groups, 'core') "{{{
     NeoBundle 'matchit.zip'
     NeoBundle 'bling/vim-airline' "{{{
+      let g:airline_powerline_fonts = 1
       let g:airline#extensions#tabline#enabled = 1
       let g:airline#extensions#tabline#left_sep=' '
       let g:airline#extensions#tabline#left_alt_sep='¦'
@@ -363,6 +364,7 @@
   endif "}}}
   if count(s:settings.plugin_groups, 'ruby') "{{{
     NeoBundle 'tpope/vim-rails'
+    NeoBundle 'tpope/vim-rake'
     NeoBundle 'tpope/vim-bundler'
   endif "}}}
   if count(s:settings.plugin_groups, 'python') "{{{
@@ -668,7 +670,7 @@
       nnoremap <leader>cl :VimShellInteractive lua<cr>
       nnoremap <leader>cr :VimShellInteractive irb<cr>
       nnoremap <leader>cp :VimShellInteractive python<cr>
-    "}}}
+   "}}}
     NeoBundleLazy 'zhaocai/GoldenView.Vim', {'autoload':{'mappings':['<Plug>ToggleGoldenViewAutoResize']}} "{{{
       let g:goldenview__enable_default_mapping=0
       nmap <F4> <Plug>ToggleGoldenViewAutoResize
@@ -700,10 +702,6 @@
   nnoremap <right> :bnext<CR>
   nnoremap <up> :tabnext<CR>
   nnoremap <down> :tabprev<CR>
-
-  " smash escape
-  inoremap jk <esc>
-  inoremap kj <esc>
 
   " change cursor position in insert mode
   inoremap <C-h> <left>
@@ -806,10 +804,10 @@
     nnoremap <silent> <leader>DP :exe ":profile pause"<cr>
     nnoremap <silent> <leader>DC :exe ":profile continue"<cr>
     nnoremap <silent> <leader>DQ :exe ":profile pause"<cr>:noautocmd qall!<cr>
-  "}}}
+ "}}}
 "}}}
 
-" commands {{{
+ "commands {{{
   command! -bang Q q<bang>
   command! -bang QA qa<bang>
   command! -bang Qa qa<bang>
