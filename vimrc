@@ -155,6 +155,9 @@
   if s:is_windows && !s:is_cygwin
     " ensure correct shell in gvim
     set shell=c:\windows\system32\cmd.exe
+  else
+    " make vim play nice with chruby
+    set shell=$SHELL
   endif
 
   " whitespace
@@ -264,7 +267,7 @@
     set guioptions-=T                                 "toolbar icons
 
     if s:is_macvim
-      set gfn=Sauce\ Code\ Powerline\ Light:h14
+      set gfn=Sauce\ Code\ Powerline\ Light:h12
       set transparency=2
     endif
 
@@ -364,8 +367,25 @@
   endif "}}}
   if count(s:settings.plugin_groups, 'ruby') "{{{
     NeoBundle 'tpope/vim-rails'
-    NeoBundle 'tpope/vim-rake'
+    NeoBundle 'tpope/vim-rake' "{{{
+      nmap <leader>rae :AE<CR>
+      nmap <leader>rav :AV<CR>
+      nmap <leader>rat :AT<CR>
+      nmap <leader>rre :RE<CR>
+      nmap <leader>rrv :RV<CR>
+      nmap <leader>rrt :RT<CR>
+      nmap <leader>rc :Rcontroller 
+      nmap <leader>rj :Rjavascript 
+      nmap <leader>rl :Rlayout 
+      nmap <leader>rm :Rmodel 
+      nmap <leader>rs :Rstylesheet 
+      nmap <leader>rv :Rview 
+    "}}}
     NeoBundle 'tpope/vim-bundler'
+    NeoBundle 'skalnik/vim-vroom' "{{{
+      nmap <leader>rt :VroomRunNearestTest<CR>
+      nmap <leader>rT :VroomRunTestFile<CR>
+    "}}}
   endif "}}}
   if count(s:settings.plugin_groups, 'python') "{{{
     NeoBundleLazy 'klen/python-mode', {'autoload':{'filetypes':['python']}} "{{{
@@ -504,6 +524,7 @@
       let g:ctrlp_extensions=['funky']
       if executable('ag')
         let g:ctrlp_user_command='ag %s -l --nocolor -g ""'
+        let g:ctrlp_use_caching=0
       endif
 
       nmap \ [ctrlp]
@@ -664,7 +685,6 @@
       let g:vimshell_data_directory='~/.vim/.cache/vimshell'
       let g:vimshell_vimshrc_path='~/.vim/vimshrc'
 
-      nnoremap <leader>c :VimShell -split<cr>
       nnoremap <leader>cc :VimShell -split<cr>
       nnoremap <leader>cn :VimShellInteractive node<cr>
       nnoremap <leader>cl :VimShellInteractive lua<cr>
@@ -783,6 +803,15 @@
 
   " window killer
   nnoremap <silent> Q :call CloseWindowOrKillBuffer()<cr>
+
+  " Open file prompt with current path
+  nmap <leader>ee :e <C-R>=expand("%:p:h") . '/'<CR>
+  nmap <leader>ev :vs <C-R>=expand("%:p:h") . '/'<CR>
+  nmap <leader>es :sp <C-R>=expand("%:p:h") . '/'<CR>
+  nmap <leader>et :tabe <C-R>=expand("%:p:h") . '/'<CR>
+
+  " Go back to previous file
+  nmap <leader>p <C-^><CR>
 
   " quick buffer open
   nnoremap gb :ls<cr>:e #
